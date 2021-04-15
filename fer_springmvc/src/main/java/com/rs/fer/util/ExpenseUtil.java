@@ -6,5 +6,7 @@ import com.rs.fer.vo.EditExpenseVO;
 
 public interface ExpenseUtil {
 	
+	Expense getExpense(AddExpenseVO addExpenseVO);
+	
 
 }

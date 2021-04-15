@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.rs.fer.entity.Expense;
 import com.rs.fer.service.ExpenseService;
+import com.rs.fer.vo.AddExpenseVO;
 import com.rs.fer.vo.EditExpenseVO;
 
 @Controller
@@ -30,6 +32,21 @@ public class ExpenseController {
 		
 		mv.setViewName("AddExpense");
 		
+		return mv;
+	}
+	@RequestMapping(value = "/saveExpense", method = RequestMethod.POST)
+	public ModelAndView saveExpense(@ModelAttribute AddExpenseVO addExpenseVO, HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView();
+		HttpSession session = request.getSession();
+
+		boolean isAdded = expenseService.addExpense(addExpenseVO, session);
+		if (isAdded) {
+			mv.addObject("status", "Expense Added successfully");
+		} else {
+			mv.addObject("status", "Expense Added failed");
+		}
+
+		mv.setViewName("Status");
 		return mv;
 	}
 

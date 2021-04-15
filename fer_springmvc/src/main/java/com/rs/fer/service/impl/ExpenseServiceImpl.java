@@ -3,6 +3,7 @@ package com.rs.fer.service.impl;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,23 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 	@Autowired
 	ExpenseUtil expenseUtil;
+	
+	@Transactional
+	@Override
+	public boolean addExpense(AddExpenseVO addExpenseVO, HttpSession session) {
+
+		boolean isAddExpense = false;
+		Expense expense = expenseUtil.getExpense(addExpenseVO);
+		expense.setUserId(FERUtil.getUserId(session));
+		try {
+			expenseRepository.save(expense);
+			isAddExpense = true;
+		} catch (Exception ex) {
+			isAddExpense = false;
+		}
+		return isAddExpense;
+	}
+
 
 	@Override
 	public boolean deleteExpense(int expenseId) {
