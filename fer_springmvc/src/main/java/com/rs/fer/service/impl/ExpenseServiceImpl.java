@@ -49,5 +49,15 @@ public class ExpenseServiceImpl implements ExpenseService {
 		return true;
 	}
 
+
+	@Override
+	public List<Expense> getExpenses(HttpSession session) {
+		List<Expense> expenses = null;
+
+		expenses = expenseRepository.findByUserId(FERUtil.getUserId(session));
+
+		return expenses;
+	}
+
 	
 }
