@@ -25,5 +25,40 @@ public class ExpenseUtilImpl implements ExpenseUtil{
 		return expense;
 	}
 
+	@Override
+	public EditExpenseVO getEditExpenseVO(Expense expense) {
+EditExpenseVO editExpenseVO=new EditExpenseVO();
+		
+		editExpenseVO.setId(expense.getId());
+		editExpenseVO.setType(expense.getType());
+		editExpenseVO.setDate(expense.getDate());
+		editExpenseVO.setPrice(expense.getPrice());
+		editExpenseVO.setNumerOfItems(expense.getNumerOfItems());
+		editExpenseVO.setTotal(expense.getTotal());
+		editExpenseVO.setBywhom(expense.getBywhom());
+
+		
+		
+		return editExpenseVO;
+	}
+
+	@Override
+	public Expense getExpenses(EditExpenseVO editExpenseVO, Expense expense) {
+		editExpenseVO.setId(expense.getId());
+		expense.setType(editExpenseVO.getType());
+		expense.setDate(editExpenseVO.getDate());
+		expense.setPrice(editExpenseVO.getPrice());
+		expense.setNumerOfItems(editExpenseVO.getNumerOfItems());
+		expense.setTotal(editExpenseVO.getTotal());
+		expense.setBywhom(editExpenseVO.getBywhom());
+		
+		expense.setUpdated(DateUtil.getCurrentDate());
+		
+		
+		
+		
+		return expense;
+	}
+
 
 }

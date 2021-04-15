@@ -67,7 +67,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 	@Override
 	public boolean editExpense(EditExpenseVO editExpenseVO, HttpSession session) {
-		int expenseId = FERUtil.getId(session);
+		int expenseId = FERUtil.getUserId(session);
 		Expense expense = expenseRepository.findById(expenseId).get();
 		expense = expenseUtil.getExpenses(editExpenseVO, expense);
 
