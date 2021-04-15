@@ -17,4 +17,8 @@ public interface UserService {
 
 	UpdateProfileVO contactInfo(UpdateProfileVO updateProfileVO, HttpSession session);
 
+	UpdateProfileVO addressInfo(UpdateProfileVO updateProfileVO,HttpSession session);
+
+	UpdateProfileVO review(UpdateProfileVO updateProfileVO,HttpSession session);
+
 }

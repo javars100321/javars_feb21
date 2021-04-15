@@ -90,4 +90,42 @@ public class UserServiceImpl implements UserService {
 		return updateProfileVO;
 
 	}
+	@Override
+	public UpdateProfileVO addressInfo(UpdateProfileVO updateProfileVO, HttpSession session) {
+		User user = (User) session.getAttribute("user");
+
+		user.setEmail(updateProfileVO.getEmail());
+		user.setMobile(updateProfileVO.getMobile());
+		if (user.getAddress() != null) {
+			updateProfileVO.setLineOne(user.getAddress().getLineOne());
+			updateProfileVO.setLineTwo(user.getAddress().getLineTwo());
+			updateProfileVO.setCity(user.getAddress().getCity());
+			updateProfileVO.setState(user.getAddress().getState());
+			updateProfileVO.setPinCode(user.getAddress().getPinCode());
+			updateProfileVO.setCountry(user.getAddress().getCountry());
+
+		}
+		return updateProfileVO;
+	}
+
+	@Override
+	public UpdateProfileVO review(UpdateProfileVO updateProfileVO, HttpSession session) {
+		User user = (User) session.getAttribute("user");
+
+		if (user.getAddress() == null) {
+			user.setAddress(new Address());
+		}
+
+		Address address = user.getAddress();
+
+		address.setLineOne(updateProfileVO.getLineOne());
+		address.setLineTwo(updateProfileVO.getLineTwo());
+		address.setCity(updateProfileVO.getCity());
+		address.setState(updateProfileVO.getState());
+		address.setPinCode(updateProfileVO.getPinCode());
+		address.setCountry(updateProfileVO.getCountry());
+
+
+		return updateProfileVO;
+	}
 }

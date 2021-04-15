@@ -82,4 +82,31 @@ public class UserController {
 		modelAndView.setViewName("ContactInfo");
 		return modelAndView;
 	}
+	@RequestMapping(value = { "/addressInfo" }, method = RequestMethod.POST)
+	public ModelAndView addressInfo(@ModelAttribute UpdateProfileVO updateProfileVO, ModelAndView modelAndView,
+			HttpServletRequest request) throws IOException {
+		HttpSession session = request.getSession();
+
+		updateProfileVO = userService.addressInfo(updateProfileVO, session);
+
+		session.setAttribute("updateProfileVO", updateProfileVO);
+		modelAndView.addObject("updateProfileVO", updateProfileVO);
+
+		modelAndView.setViewName("AddressInfo");
+		return modelAndView;
+	}
+
+	@RequestMapping(value = { "/review" }, method = RequestMethod.POST)
+	public ModelAndView review(@ModelAttribute UpdateProfileVO updateProfileVO, ModelAndView modelAndView,
+			HttpServletRequest request) throws IOException {
+		HttpSession session = request.getSession();
+
+		updateProfileVO = userService.review(updateProfileVO, session);
+
+		session.setAttribute("updateProfileVO", updateProfileVO);
+		modelAndView.addObject("updateProfileVO", updateProfileVO);
+
+		modelAndView.setViewName("Review");
+		return modelAndView;
+	}
 }
