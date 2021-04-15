@@ -25,7 +25,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 	@Autowired
 	ExpenseUtil expenseUtil;
-	
+
 	@Transactional
 	@Override
 	public boolean addExpense(AddExpenseVO addExpenseVO, HttpSession session) {
@@ -42,13 +42,11 @@ public class ExpenseServiceImpl implements ExpenseService {
 		return isAddExpense;
 	}
 
-
 	@Override
 	public boolean deleteExpense(int expenseId) {
 		expenseRepository.deleteById(expenseId);
 		return true;
 	}
-
 
 	@Override
 	public List<Expense> getExpenses(HttpSession session) {
@@ -59,5 +57,27 @@ public class ExpenseServiceImpl implements ExpenseService {
 		return expenses;
 	}
 
-	
+	@Override
+	public EditExpenseVO getExpense(int expenseId) {
+		EditExpenseVO editExpenseVO = new EditExpenseVO();
+		Expense expense = expenseRepository.findById(expenseId).get();
+		editExpenseVO = expenseUtil.getEditExpenseVO(expense);
+		return editExpenseVO;
+	}
+
+	@Override
+	public boolean editExpense(EditExpenseVO editExpenseVO, HttpSession session) {
+		int expenseId = FERUtil.getId(session);
+		Expense expense = expenseRepository.findById(expenseId).get();
+		expense = expenseUtil.getExpenses(editExpenseVO, expense);
+
+		expense.setUserId(FERUtil.getUserId(session));
+		try {
+			expenseRepository.save(expense);
+			return true;
+		} catch (Exception ex) {
+			return false;
+		}
+	}
+
 }
