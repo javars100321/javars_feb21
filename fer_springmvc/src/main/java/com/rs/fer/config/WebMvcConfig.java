@@ -13,13 +13,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan(basePackages = "com.rs.fer")
 public class WebMvcConfig implements WebMvcConfigurer {
 
-//	@Bean
-//	public ViewResolver getViewResolver() {
-//		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-//		resolver.setPrefix("/WEB-INF/views/");
-//		resolver.setSuffix(".jsp");
-//		return resolver;
-//	}
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
