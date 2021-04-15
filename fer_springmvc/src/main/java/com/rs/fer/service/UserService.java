@@ -9,5 +9,6 @@ import com.rs.fer.vo.UpdateProfileVO;
 
 public interface UserService {
 
-	
+	public boolean saveUser(RegistrationVO registrationVO);
+
 }

@@ -25,5 +25,34 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
+	public ModelAndView welcome() throws IOException {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("Login");
+		return mv;
+	}
 	
+	@RequestMapping(value = { "/registration" }, method = RequestMethod.GET)
+	public ModelAndView displayRegistration() throws IOException {
+		return new ModelAndView("Registration");
+	}
+	
+	@RequestMapping(value = "/registration", method = RequestMethod.POST)
+	public ModelAndView saveUser(@ModelAttribute RegistrationVO registrationVO) {
+		ModelAndView mv = new ModelAndView();
+
+		boolean isAdded = userService.saveUser(registrationVO);
+		String nextPath = "";
+		if (isAdded) {
+			mv.addObject("status", "User registered successfully");
+			nextPath = "Login";
+		} else {
+			mv.addObject("status", "User registration is failed");
+			nextPath = "Registration";
+		}
+		
+		mv.setViewName(nextPath);
+		
+		return mv;
+	}
 }

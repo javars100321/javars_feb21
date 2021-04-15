@@ -5,5 +5,6 @@ import com.rs.fer.vo.RegistrationVO;
 import com.rs.fer.vo.UpdateProfileVO;
 
 public interface UserUtil {
+	User getUser(RegistrationVO registrationVO);
 	
 }

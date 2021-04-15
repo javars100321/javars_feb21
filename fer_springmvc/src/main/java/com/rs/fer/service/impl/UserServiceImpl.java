@@ -29,5 +29,17 @@ public class UserServiceImpl implements UserService {
 	private UserUtil userUtil;
 	
 	
-
+	@Transactional
+	@Override
+	public boolean saveUser(RegistrationVO registrationVO) {
+	
+		User user = userUtil.getUser(registrationVO);
+		
+		try {
+			repository.save(user);
+			return true;
+		} catch (Exception ex) {
+			return false;
+		}
+	}
 }
