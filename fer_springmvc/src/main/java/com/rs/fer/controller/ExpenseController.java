@@ -83,6 +83,27 @@ public class ExpenseController {
 		mv.setViewName("Status");
 		return mv;
 	}
+	@RequestMapping(value = "/editExpenseOptions", method = RequestMethod.POST)
+	public ModelAndView editExpenseOptions(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView();
+
+		HttpSession session = request.getSession();
+
+		List<Expense> expenses = expenseService.getExpenses(session);
+
+		if (CollectionUtils.isEmpty(expenses)) {
+			mv.addObject("status", "Expense not Found");
+
+		} else {
+			mv.addObject("expenses", expenses);
+			session.setAttribute("expenses", expenses);
+
+		}
+		mv.setViewName("EditExpenseOptions");
+
+		return mv;
+	}
+
 	
 	
 }
