@@ -25,5 +25,11 @@ public class ExpenseServiceImpl implements ExpenseService {
 	@Autowired
 	ExpenseUtil expenseUtil;
 
+	@Override
+	public boolean deleteExpense(int expenseId) {
+		expenseRepository.deleteById(expenseId);
+		return true;
+	}
+
 	
 }
