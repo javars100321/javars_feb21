@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import com.rs.fer.entity.User;
 import com.rs.fer.util.UserUtil;
 import com.rs.fer.vo.RegistrationVO;
-import com.rs.fer.vo.ResetPasswordVO;
+import com.rs.fer.vo.UpdateProfileVO;
 
 @Component
 public class UserUtilImpl implements UserUtil{
@@ -30,16 +30,27 @@ public class UserUtilImpl implements UserUtil{
 	}
 	
 	@Override
-	public ResetPasswordVO getResetPasswordVO(User user) {
+	public UpdateProfileVO getUpdateProfileVO(User user) {
 
-		ResetPasswordVO resetPasswordVO=new ResetPasswordVO();
+		UpdateProfileVO updateProfileVO = new UpdateProfileVO();
 
-		user.setPassword(resetPasswordVO.getCurrentPassword());
-		
-		user.setPassword(resetPasswordVO.getNewPassword());
-		
-		user.setPassword(resetPasswordVO.getConfirmNewPassword());
-		
-		return resetPasswordVO;
+		updateProfileVO.setFirstName(user.getFirstName());
+		updateProfileVO.setMiddleName(user.getMiddleName());
+		updateProfileVO.setLastName(user.getLastName());
+
+		updateProfileVO.setEmail(user.getEmail());
+		updateProfileVO.setMobile(user.getMobile());
+
+		if (user.getAddress() != null) {
+			updateProfileVO.setLineOne(user.getAddress().getLineOne());
+			updateProfileVO.setLineTwo(user.getAddress().getLineTwo());
+			updateProfileVO.setCity(user.getAddress().getCity());
+			updateProfileVO.setState(user.getAddress().getState());
+			updateProfileVO.setPinCode(user.getAddress().getPinCode());
+			updateProfileVO.setCountry(user.getAddress().getCountry());
+
+		}
+
+		return updateProfileVO;
 	}
 }

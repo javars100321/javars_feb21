@@ -17,7 +17,7 @@ import com.rs.fer.service.UserService;
 import com.rs.fer.vo.AddExpenseVO;
 import com.rs.fer.vo.LoginVO;
 import com.rs.fer.vo.RegistrationVO;
-import com.rs.fer.vo.ResetPasswordVO;
+import com.rs.fer.vo.UpdateProfileVO;
 
 @Controller
 public class UserController {
@@ -56,31 +56,30 @@ public class UserController {
 		return mv;
 	}
 	
-	@RequestMapping(value = { "/displayResetPassword" }, method = RequestMethod.POST)
-	public ModelAndView displayResetPassword() throws IOException {
-		return new ModelAndView("DisplayResetPassword");
+	@RequestMapping(value = { "/nameInfo" }, method = RequestMethod.POST)
+	public ModelAndView nameInfo(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView("NameInfo");
+
+		HttpSession session = request.getSession();
+
+		UpdateProfileVO updateProfileVO = userService.nameInfo(session);
+		session.setAttribute("updateProfileVO", updateProfileVO);
+		mv.addObject("updateProfileVO", updateProfileVO);
+
+		return mv;
 	}
 
-	
-	
-	
-	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
-	public ModelAndView resetPassword(@ModelAttribute ResetPasswordVO resetPasswordVO, HttpServletRequest request) {
-		
-		ModelAndView mv = new ModelAndView();
-		
-		boolean isReset= userService.resetPassword(resetPasswordVO, request);
-		
-		if(isReset){
-	
-			mv.addObject("status", "Password Updated Succesfully");
-		
-		}else {
-			mv.addObject("status", "Password Updated Failed");
-		
-		}
-		mv.setViewName("Status");
-		
-		return mv;
+	@RequestMapping(value = { "/contactInfo" }, method = RequestMethod.POST)
+	public ModelAndView contactInfo(@ModelAttribute UpdateProfileVO updateProfileVO, ModelAndView modelAndView,
+			HttpServletRequest request) throws IOException {
+		HttpSession session = request.getSession();
+
+		updateProfileVO = userService.contactInfo(updateProfileVO, session);
+
+		session.setAttribute("updateProfileVO", updateProfileVO);
+		modelAndView.addObject("updateProfileVO", updateProfileVO);
+
+		modelAndView.setViewName("ContactInfo");
+		return modelAndView;
 	}
 }

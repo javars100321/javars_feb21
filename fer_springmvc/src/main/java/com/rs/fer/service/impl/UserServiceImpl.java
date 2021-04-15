@@ -47,32 +47,47 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public boolean resetPassword(ResetPasswordVO resetPasswordVO,HttpServletRequest request) {
+	public UpdateProfileVO getUser(HttpSession session) {
 
-		User user = new User();
-		
-		HttpSession session= request.getSession();
-		
-		int userId= FERUtil.getUserId(session);
+		UpdateProfileVO updateProfileVO = null;
 
-		List<User> users= repository.findByIdAndPassword(userId, resetPasswordVO.getCurrentPassword());
-		
-		if(!CollectionUtils.isEmpty(users)) {
-			user =users.get(0);
-		}
-		if(user != null) {
-        	
-        	user.setPassword(resetPasswordVO.getNewPassword());
-        	
-        	user.setCreated(DateUtil.getCurrentDate());
-        }
-       
-		try {
-			repository.save(user);
-			return true;
-		}catch(Exception ex) {
-			return false;
-		}
-		
+		int userId = FERUtil.getUserId(session);
+
+		User user = repository.findById(userId).get();
+
+		session.setAttribute("user", user);
+		updateProfileVO = userUtil.getUpdateProfileVO(user);
+
+		return updateProfileVO;
+	}
+
+	@Override
+	public UpdateProfileVO nameInfo(HttpSession session) {
+		UpdateProfileVO updateProfileVO = null;
+
+		int userId = FERUtil.getUserId(session);
+
+		User user = repository.findById(userId).get();
+
+		session.setAttribute("user", user);
+		updateProfileVO = userUtil.getUpdateProfileVO(user);
+
+		return updateProfileVO;
+	}
+
+	@Override
+	public UpdateProfileVO contactInfo(UpdateProfileVO updateProfileVO, HttpSession session) {
+
+		User user = (User) session.getAttribute("user");
+
+		user.setFirstName(updateProfileVO.getFirstName());
+		user.setMiddleName(updateProfileVO.getMiddleName());
+		user.setLastName(updateProfileVO.getLastName());
+
+		updateProfileVO.setEmail(user.getEmail());
+		updateProfileVO.setMobile(user.getMobile());
+
+		return updateProfileVO;
+
 	}
 }
