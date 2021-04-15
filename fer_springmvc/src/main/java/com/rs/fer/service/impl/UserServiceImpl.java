@@ -128,4 +128,15 @@ public class UserServiceImpl implements UserService {
 
 		return updateProfileVO;
 	}
+	@Override
+	public boolean updateUser(HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		try {
+			repository.save(user);
+			return true;
+		} catch (Exception ex) {
+			return false;
+		}
+
+	}
 }

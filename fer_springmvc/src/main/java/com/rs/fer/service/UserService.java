@@ -21,4 +21,6 @@ public interface UserService {
 
 	UpdateProfileVO review(UpdateProfileVO updateProfileVO,HttpSession session);
 
+	public boolean updateUser(HttpSession session);
+
 }

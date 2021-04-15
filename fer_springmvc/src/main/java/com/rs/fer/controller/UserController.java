@@ -109,4 +109,24 @@ public class UserController {
 		modelAndView.setViewName("Review");
 		return modelAndView;
 	}
+	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+	public ModelAndView updateUser(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView();
+
+		HttpSession session = request.getSession();
+
+		boolean isUpdateUser = userService.updateUser(session);
+
+		if (isUpdateUser) {
+
+			mv.addObject("status", "User profile Updated Successfully");
+
+		} else {
+			mv.addObject("status", "User profile update is Failed");
+
+		}
+		mv.setViewName("Status");
+
+		return mv;
+	}
 }
