@@ -139,4 +139,14 @@ public class UserServiceImpl implements UserService {
 		}
 
 	}
+
+	@Override
+	public User login(LoginVO loginVO) {
+		User user = null;
+		List<User> users = repository.findByUsernameAndPassword(loginVO.getUsername(), loginVO.getPassword());
+		if (!CollectionUtils.isEmpty(users)) {
+			user = users.get(0);
+		}
+		return user;
+	}
 }

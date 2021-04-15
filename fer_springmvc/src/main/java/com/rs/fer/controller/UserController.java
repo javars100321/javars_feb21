@@ -18,6 +18,7 @@ import com.rs.fer.vo.AddExpenseVO;
 import com.rs.fer.vo.LoginVO;
 import com.rs.fer.vo.RegistrationVO;
 import com.rs.fer.vo.UpdateProfileVO;
+import com.rs.fer.vo.UserVO;
 
 @Controller
 public class UserController {
@@ -55,7 +56,28 @@ public class UserController {
 		
 		return mv;
 	}
-	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public ModelAndView login(@ModelAttribute LoginVO loginVO, HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView();
+
+		User user = userService.login(loginVO);
+
+		String nextPath = "";
+		if (user != null) {
+
+			HttpSession session = request.getSession();
+			session.setAttribute("userName", user.getUsername());
+			session.setAttribute("userId", user.getId());
+			nextPath = "Dashboard";
+		} else {
+			mv.addObject("status", "Invalid username/password please try agian later");
+			nextPath = "Login";
+
+		}
+		mv.setViewName(nextPath);
+
+		return mv;
+	}
 	@RequestMapping(value = { "/nameInfo" }, method = RequestMethod.POST)
 	public ModelAndView nameInfo(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("NameInfo");

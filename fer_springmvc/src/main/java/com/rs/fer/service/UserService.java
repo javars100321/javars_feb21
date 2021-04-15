@@ -23,4 +23,6 @@ public interface UserService {
 
 	public boolean updateUser(HttpSession session);
 
+	public User login(LoginVO loginVO);
+
 }
