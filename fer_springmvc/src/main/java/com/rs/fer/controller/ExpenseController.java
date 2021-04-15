@@ -22,18 +22,20 @@ import com.rs.fer.vo.EditExpenseVO;
 
 @Controller
 public class ExpenseController {
-	
+
 	@Autowired
 	private ExpenseService expenseService;
+
 	@RequestMapping(value = { "/displayAddExpense" }, method = RequestMethod.POST)
 	public ModelAndView displayAddExpense() throws IOException {
-		
+
 		ModelAndView mv = new ModelAndView();
-		
+
 		mv.setViewName("AddExpense");
-		
+
 		return mv;
 	}
+
 	@RequestMapping(value = "/saveExpense", method = RequestMethod.POST)
 	public ModelAndView saveExpense(@ModelAttribute AddExpenseVO addExpenseVO, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
@@ -53,36 +55,38 @@ public class ExpenseController {
 	@RequestMapping(value = { "/deleteExpenseOptions" }, method = RequestMethod.POST)
 	public ModelAndView deleteExpenseOptions(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
-		
+
 		HttpSession session = request.getSession();
-		
+
 		List<Expense> expenses = expenseService.getExpenses(session);
-		if(CollectionUtils.isEmpty(expenses)) {
+		if (CollectionUtils.isEmpty(expenses)) {
 			mv.addObject("status", "Expense not found");
-		}else {
-			mv.addObject("expenses",expenses);
+		} else {
+			mv.addObject("expenses", expenses);
 			session.setAttribute("expenses", expenses);
 		}
 		mv.setViewName("DeleteExpenseOptions");
 		return mv;
 	}
+
 	@RequestMapping(value = { "/deleteExpense" }, method = RequestMethod.POST)
-	public ModelAndView deleteExpense(@RequestParam int expenseId,HttpServletRequest request) {
+	public ModelAndView deleteExpense(@RequestParam int expenseId, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
-		
+
 		HttpSession session = request.getSession();
 		EditExpenseVO editExpenseVO = expenseService.getExpense(expenseId);
 		session.setAttribute("expenseId", expenseId);
-		
+
 		boolean isDeleted = expenseService.deleteExpense(expenseId);
-		if(isDeleted) {
+		if (isDeleted) {
 			mv.addObject("status", "Expense deleted successfully");
-		}else {
+		} else {
 			mv.addObject("status", "Expense delete is failed");
 		}
 		mv.setViewName("Status");
 		return mv;
 	}
+
 	@RequestMapping(value = "/editExpenseOptions", method = RequestMethod.POST)
 	public ModelAndView editExpenseOptions(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
@@ -104,7 +108,38 @@ public class ExpenseController {
 		return mv;
 	}
 
-	
-	
-	
+	@RequestMapping(value = "/displayEditExpense", method = RequestMethod.POST)
+	public ModelAndView displayEditExpense(@RequestParam int expenseId, HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView();
+
+		HttpSession session = request.getSession();
+		EditExpenseVO editExpenseVO = expenseService.getExpense(expenseId);
+		mv.addObject("editExpenseVO", editExpenseVO);
+		session.setAttribute("expenseId", expenseId);
+		session.setAttribute("editExpenseVO", editExpenseVO);
+		mv.setViewName("EditExpense");
+
+		return mv;
+	}
+
+	@RequestMapping(value = "/editExpense", method = RequestMethod.POST)
+	public ModelAndView editExpense(@ModelAttribute EditExpenseVO editExpenseVO, HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView();
+
+		HttpSession session = request.getSession();
+
+		boolean isEdited = expenseService.editExpense(editExpenseVO, session);
+
+		if (isEdited) {
+			mv.addObject("status", "Expense updated successfully");
+
+		} else {
+			mv.addObject("status", "Expense update is Failed");
+
+		}
+		mv.setViewName("Status");
+
+		return mv;
+	}
+
 }
