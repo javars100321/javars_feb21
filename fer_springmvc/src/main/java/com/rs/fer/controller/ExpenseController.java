@@ -117,6 +117,7 @@ public class ExpenseController {
 		mv.addObject("editExpenseVO", editExpenseVO);
 		session.setAttribute("expenseId", expenseId);
 		session.setAttribute("editExpenseVO", editExpenseVO);
+		
 		mv.setViewName("EditExpense");
 
 		return mv;
@@ -124,6 +125,7 @@ public class ExpenseController {
 
 	@RequestMapping(value = "/editExpense", method = RequestMethod.POST)
 	public ModelAndView editExpense(@ModelAttribute EditExpenseVO editExpenseVO, HttpServletRequest request) {
+
 		ModelAndView mv = new ModelAndView();
 
 		HttpSession session = request.getSession();
