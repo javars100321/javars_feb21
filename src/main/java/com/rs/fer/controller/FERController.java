@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rs.fer.bean.Expense;
 import com.rs.fer.bean.User;
 import com.rs.fer.service.FERService;
+import com.rs.fer.vo.ResetPassWordVO;
 
 @RestController
 public class FERController {
@@ -50,17 +51,16 @@ public class FERController {
 		}
 	}
 
-	@PostMapping("/resetPassword/{userId}")
+	@PostMapping("/resetPassword")
 
-	public ResponseEntity<String> resetPassword(@PathVariable("userId") int userId, @RequestParam String oldPassword,
-			@RequestParam String newPassword) {
+	public ResponseEntity<String> resetPassword(@RequestBody ResetPassWordVO reset) {
 
-		boolean isReset = ferService.resetPassword(userId, oldPassword, newPassword);
+		boolean isReset = ferService.resetPassword(reset.getUserId(), reset.getOldPassword(), reset.getNewPassword());
 
 		if (isReset) {
-			return new ResponseEntity("PassWord reseted successfully", HttpStatus.OK);
+			return new ResponseEntity<String>("PassWord reseted successfully", HttpStatus.OK);
 		} else {
-			return new ResponseEntity("reset password is faild", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<String>("reset password is faild", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
