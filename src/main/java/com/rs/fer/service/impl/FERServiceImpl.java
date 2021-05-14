@@ -105,7 +105,6 @@ public class FERServiceImpl implements FERService {
 
 			if (user != null) {
 				user.setPassword(newPassword);
-
 				try {
 					userRepository.save(user);
 					return true;
@@ -116,6 +115,7 @@ public class FERServiceImpl implements FERService {
 		}
 		return false;
 	}
+	
 
 	@Override
 	public List<Expense> expenseReport(int userId, String expenseType, String fromDate, String toDate) {
