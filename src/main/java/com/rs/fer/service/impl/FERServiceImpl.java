@@ -134,8 +134,6 @@ public class FERServiceImpl implements FERService {
 
 		}
 		
-
-
 	@Override
 	public User getUser(int userId) {
 		User user = null;
