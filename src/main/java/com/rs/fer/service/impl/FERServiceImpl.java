@@ -37,7 +37,7 @@ public class FERServiceImpl implements FERService {
 
 	@Override
 	public int login(String username, String password) {
-		
+		 
 		List<User> users = userRepository.findByUsernameAndPassword(username, password);
 		
 		if(users != null && !users.isEmpty()) {
@@ -49,6 +49,7 @@ public class FERServiceImpl implements FERService {
 	}
 
 	@Override
+	//addExpense
 	public boolean addExpense(Expense expense) {
 		boolean expenseAdd = false;
 
