@@ -74,7 +74,7 @@ public class FERController {
 		
 		boolean isAddExp = ferService.addExpense(expense);
 		if(isAddExp) {
-			return new ResponseEntity(expense, HttpStatus.OK);
+			return new ResponseEntity(expense,   HttpStatus.OK);
 		} else {
 			return new ResponseEntity(expense, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
