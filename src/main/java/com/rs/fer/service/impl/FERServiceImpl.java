@@ -68,6 +68,7 @@ public class FERServiceImpl implements FERService {
 	
 	
 	@Override
+	//getExpense
 	public List<Expense> getExpenses(int userId) {
 		return expenseRepository.findByUserId(userId);
 	}
