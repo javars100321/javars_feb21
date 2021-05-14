@@ -96,23 +96,25 @@ public class FERServiceImpl implements FERService {
 
 	@Override
 	public boolean resetPassword(int userId, String currentPassword, String newPassword) {
-		
-		User user=new User();
 
-		List<User> users= userRepository.findByUserIdAndPassword(userId, currentPassword);
-		
-		if(!users.isEmpty()) {
-			user =users.get(0);
+		List<User> users = userRepository.findByUserIdAndPassword(userId, currentPassword);
+
+		if (!users.isEmpty()) {
+			User user = new User();
+			user = users.get(0);
+
+			if (user != null) {
+				user.setPassword(newPassword);
+
+				try {
+					userRepository.save(user);
+					return true;
+				} catch (Exception ex) {
+					return false;
+				}
+			}
 		}
-		if(user != null) {
-        	user.setPassword(newPassword);
-        }
-		try {
-			userRepository.save(user);
-			return true;
-		}catch(Exception ex) {
-			return false;
-		}
+		return false;
 	}
 
 	@Override
