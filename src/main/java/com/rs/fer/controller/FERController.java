@@ -40,7 +40,6 @@ public class FERController {
 		} else {
 			return new ResponseEntity("User is not Valid", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
 	}
 	@PostMapping("/resetPassword/{userId}")
 	
