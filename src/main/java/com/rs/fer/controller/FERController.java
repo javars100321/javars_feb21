@@ -62,7 +62,6 @@ public class FERController {
 		} else {
 			return new ResponseEntity<String>("reset password is faild", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
 	}
 
 	@DeleteMapping("/deleteExpense/{expenseId}")
