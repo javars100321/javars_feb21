@@ -37,7 +37,7 @@ public class FERController {
 		int userId = ferService.login(username, password);
 		
 		if(userId > 0) {
-			return new ResponseEntity("User is Valid", HttpStatus.OK);
+			return new ResponseEntity("User      is Valid", HttpStatus.OK);
 		} else {
 			return new ResponseEntity("User is not Valid", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
