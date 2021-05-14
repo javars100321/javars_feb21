@@ -85,7 +85,17 @@ public class FERServiceImpl implements FERService {
 	@Override
 	public boolean deleteExpense(int expenseId) {
 		boolean expensedelete = false;
-		
+		Expense expense = expenseRepository.findById(expenseId).get();
+
+		try {
+			expenseRepository.delete(expense);
+
+			expensedelete = true;
+
+		} catch (Exception ex) {
+
+			expensedelete = false;
+		}
 		
 		return expensedelete;
 	}
