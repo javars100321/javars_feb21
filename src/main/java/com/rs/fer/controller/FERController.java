@@ -3,6 +3,7 @@ package com.rs.fer.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,10 +28,6 @@ public class FERController {
 		} else {
 			return new ResponseEntity(user, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
-		
-		
-		
 	}
 	//for Login 
 	@PostMapping("/login")
@@ -42,6 +39,19 @@ public class FERController {
 			return new ResponseEntity("User      is Valid", HttpStatus.OK);
 		} else {
 			return new ResponseEntity("User is not Valid", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+	}
+	@PostMapping("/resetPassword/{userId}")
+	
+	public ResponseEntity<String> resetPassword(@PathVariable("userId") int userId,@RequestParam String oldPassword, @RequestParam String newPassword) {
+		
+		boolean isReset = ferService.resetPassword(userId, oldPassword, newPassword);
+		
+		if(isReset) {
+			return new ResponseEntity("PassWord reseted successfully", HttpStatus.OK);
+		} else {
+			return new ResponseEntity("reset password is faild", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
