@@ -29,15 +29,16 @@ public class FERServiceImpl implements FERService {
 		boolean isRegister = false;
 		
 		user = userRepository.save(user);
-		
+		     
 		isRegister = user.getUserId() > 0;
 		
 		return isRegister;
 	}
 
+	//for login
 	@Override
 	public int login(String username, String password) {
-		
+		 
 		List<User> users = userRepository.findByUsernameAndPassword(username, password);
 		
 		if(users != null && !users.isEmpty()) {
@@ -49,6 +50,7 @@ public class FERServiceImpl implements FERService {
 	}
 
 	@Override
+	//addExpense
 	public boolean addExpense(Expense expense) {
 		boolean expenseAdd = false;
 
@@ -63,8 +65,10 @@ public class FERServiceImpl implements FERService {
 	public Expense getExpense(int expenseId) {
 		return expenseRepository.findById(expenseId).get();
 	}
-
+	
+	
 	@Override
+	//getExpense
 	public List<Expense> getExpenses(int userId) {
 		return expenseRepository.findByUserId(userId);
 	}
@@ -102,11 +106,26 @@ public class FERServiceImpl implements FERService {
 
 	@Override
 	public boolean resetPassword(int userId, String currentPassword, String newPassword) {
-		boolean isreset = false;
-		
 
-		return isreset;
+		List<User> users = userRepository.findByUserIdAndPassword(userId, currentPassword);
+
+		if (!users.isEmpty()) {
+			User user = new User();
+			user = users.get(0);
+
+			if (user != null) {
+				user.setPassword(newPassword);
+				try {
+					userRepository.save(user);
+					return true;
+				} catch (Exception ex) {
+					return false;
+				}
+			}
+		}
+		return false;
 	}
+	
 
 	@Override
 	public List<Expense> expenseReport(int userId, String expenseType, String fromDate, String toDate) {
