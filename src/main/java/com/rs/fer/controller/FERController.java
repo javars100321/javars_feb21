@@ -1,12 +1,13 @@
 package com.rs.fer.controller;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-<<<<<<< HEAD
 import org.springframework.web.bind.annotation.DeleteMapping;
-=======
->>>>>>> branch '21.06' of https://github.com/javars100321/javars_feb21.git
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -80,4 +81,16 @@ public class FERController {
 		}
 	
 	}
+	@GetMapping("/expenseReport/{userId}")
+	public ResponseEntity<List<Expense>> expenseReport(@PathVariable("userId") int userId, @RequestParam String type,
+			@RequestParam String fromDate, @RequestParam String toDate) throws IOException {
+
+		List<Expense> expenseReport = (List<Expense>) ferService.expenseReport(userId, type, fromDate, toDate);
+
+		if (expenseReport.isEmpty()) {
+			return new ResponseEntity(expenseReport, HttpStatus.NO_CONTENT);
+		} else {
+			return new ResponseEntity(expenseReport, HttpStatus.OK);
+		}
+}
 }

@@ -11,5 +11,6 @@ import com.rs.fer.bean.Expense;
 public interface ExpenseRepository extends CrudRepository<com.rs.fer.bean.Expense, Integer>{
 	
 	List<Expense> findByUserId(int userId);
+	List<Expense> findByUserIdAndTypeAndDateBetween(int userId, String type, String fromDate, String toDate);
 	
 }

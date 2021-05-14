@@ -126,15 +126,15 @@ public class FERServiceImpl implements FERService {
 		return false;
 	}
 	
+		@Override
+		public List<Expense> expenseReport(int userId, String type, String fromDate, String toDate) {
+			List<Expense> isExpenseReport = new ArrayList<Expense>();
+			isExpenseReport = expenseRepository.findByUserIdAndTypeAndDateBetween(userId, type, fromDate, toDate);
+			return isExpenseReport;
 
-	@Override
-	public List<Expense> expenseReport(int userId, String expenseType, String fromDate, String toDate) {
-		List<Expense> isExpenseReport = new ArrayList<Expense>();
+		}
 		
-		
-		return isExpenseReport;
 
-	}
 
 	@Override
 	public User getUser(int userId) {
