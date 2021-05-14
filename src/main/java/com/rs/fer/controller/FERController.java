@@ -1,6 +1,7 @@
 package com.rs.fer.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,61 +27,67 @@ public class FERController {
 
 	@PostMapping("/registration")
 	public ResponseEntity<User> registration(@RequestBody User user) {
-		
+
 		boolean isRegister = ferService.registration(user);
-		
-		if(isRegister) {
+
+		if (isRegister) {
 			return new ResponseEntity(user, HttpStatus.OK);
 		} else {
 			return new ResponseEntity(user, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	//for Login 
+
+	// for Login
 	@PostMapping("/login")
 	public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
-		
+
 		int userId = ferService.login(username, password);
-		
-		if(userId > 0) {
+
+		if (userId > 0) {
 			return new ResponseEntity("User is Valid", HttpStatus.OK);
 		} else {
 			return new ResponseEntity("User is not Valid", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
 	@PostMapping("/resetPassword/{userId}")
-	
-	public ResponseEntity<String> resetPassword(@PathVariable("userId") int userId,@RequestParam String oldPassword, @RequestParam String newPassword) {
-		
+
+	public ResponseEntity<String> resetPassword(@PathVariable("userId") int userId, @RequestParam String oldPassword,
+			@RequestParam String newPassword) {
+
 		boolean isReset = ferService.resetPassword(userId, oldPassword, newPassword);
-		
-		if(isReset) {
+
+		if (isReset) {
 			return new ResponseEntity("PassWord reseted successfully", HttpStatus.OK);
 		} else {
 			return new ResponseEntity("reset password is faild", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 	}
+
 	@DeleteMapping("/deleteExpense/{expenseId}")
 	public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("expenseId") int expenseId) {
-		
-			boolean deleteExpense=ferService.deleteExpense(expenseId);
-			if(deleteExpense) {
+
+		boolean deleteExpense = ferService.deleteExpense(expenseId);
+		if (deleteExpense) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}else {
+		} else {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
 	@PostMapping("/addExpense")
 	public ResponseEntity<Expense> createTutorial(@RequestBody Expense expense) {
-		
+
 		boolean isAddExp = ferService.addExpense(expense);
-		if(isAddExp) {
-			return new ResponseEntity(expense,   HttpStatus.OK);
+		if (isAddExp) {
+			return new ResponseEntity(expense, HttpStatus.OK);
 		} else {
 			return new ResponseEntity(expense, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-	
+
 	}
+
 	@GetMapping("/expenseReport/{userId}")
 	public ResponseEntity<List<Expense>> expenseReport(@PathVariable("userId") int userId, @RequestParam String type,
 			@RequestParam String fromDate, @RequestParam String toDate) throws IOException {
@@ -92,5 +99,23 @@ public class FERController {
 		} else {
 			return new ResponseEntity(expenseReport, HttpStatus.OK);
 		}
-}
+	}
+
+	@GetMapping("/getExpenses")
+	public ResponseEntity<List<Expense>> getExpenses(@RequestParam int userId) {
+		try {
+			List<Expense> expenses = new ArrayList<Expense>();
+			if (userId > 0) {
+				ferService.getExpenses(userId).forEach(expenses::add);
+			}
+			if (expenses.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			} else {
+				return new ResponseEntity<>(expenses, HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 }
