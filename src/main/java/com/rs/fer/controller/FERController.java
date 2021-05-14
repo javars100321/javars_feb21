@@ -124,7 +124,8 @@ public class FERController {
 		boolean isEditExpense=ferService.editExpense(expense);
 		if(isEditExpense) {
 			return new ResponseEntity<Expense>(expense, HttpStatus.OK);
-		}else {
+		}else 
+		{
 			return new ResponseEntity<Expense>(expense, HttpStatus.INTERNAL_SERVER_ERROR);
 		 }
 		}
