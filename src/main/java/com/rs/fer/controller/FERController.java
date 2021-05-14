@@ -28,9 +28,6 @@ public class FERController {
 			return new ResponseEntity(user, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		
-		
-		
 	}
 	
 	@PostMapping("/login")
