@@ -29,12 +29,13 @@ public class FERServiceImpl implements FERService {
 		boolean isRegister = false;
 		
 		user = userRepository.save(user);
-		
+		     
 		isRegister = user.getUserId() > 0;
 		
 		return isRegister;
 	}
 
+	//for login
 	@Override
 	public int login(String username, String password) {
 		 
