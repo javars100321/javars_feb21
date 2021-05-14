@@ -118,4 +118,14 @@ public class FERController {
 		}
 	}
 
+	@PostMapping("/editExpense")
+	public ResponseEntity<Expense> editExpense(@RequestBody Expense expense){
+
+		boolean isEditExpense=ferService.editExpense(expense);
+		if(isEditExpense) {
+			return new ResponseEntity<Expense>(expense, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<Expense>(expense, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		}
 }
