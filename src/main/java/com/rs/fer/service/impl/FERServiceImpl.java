@@ -35,6 +35,7 @@ public class FERServiceImpl implements FERService {
 		return isRegister;
 	}
 
+	//for login
 	@Override
 	public int login(String username, String password) {
 		 
