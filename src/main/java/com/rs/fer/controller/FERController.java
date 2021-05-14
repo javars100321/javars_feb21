@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rs.fer.bean.User;
@@ -28,5 +29,17 @@ public class FERController {
 		}
 		
 	}
-
+	
+	@PostMapping("/login")
+	public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+		
+		int userId = ferService.login(username, password);
+		
+		if(userId > 0) {
+			return new ResponseEntity("User is Valid", HttpStatus.OK);
+		} else {
+			return new ResponseEntity("User is not Valid", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+	}
 }
