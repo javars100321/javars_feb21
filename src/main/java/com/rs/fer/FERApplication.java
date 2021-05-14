@@ -9,6 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 public class FERApplication {
 	
 	public static void main(String[] args) {
+		
 		SpringApplication.run(FERApplication.class, args);
 	}
 	
